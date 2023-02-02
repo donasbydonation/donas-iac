@@ -1,0 +1,2 @@
+# config
+GitOps config repository
