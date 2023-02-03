@@ -16,3 +16,7 @@ resource "aws_iam_user" "config_gh_action_robot" {
     "doc.donas.me/saved-at"       = "github.com/Boost-projects/config"
   }
 }
+
+resource "aws_iam_access_key" "config_gh_action_robot" {
+  user = aws_iam_user.config_gh_action_robot.name
+}

@@ -18,3 +18,7 @@ resource "aws_iam_user_group_membership" "haeram_kim1" {
     aws_iam_group.admin.name,
   ]
 }
+
+resource "aws_iam_access_key" "haeram_kim1" {
+  user = aws_iam_user.haeram_kim1.name
+}
