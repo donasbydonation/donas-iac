@@ -1,13 +1,11 @@
-# -------------------------
-# S3
-# -------------------------
+# - S3
 resource "aws_s3_bucket" "donas_tfstate_bucket" {
   bucket = "donas-tfstate-bucket"
 
   tags = {
-    "app.donas.me/created-by"     = "haeram.kim1"
-    "app.donas.me/resource-group" = "tfstate"
-    "app.donas.me/tier"           = "production"
+    "app.donas.me/tier"       = "production"
+    "obj.donas.me/created-by" = "root"
+    "obj.donas.me/group"      = "tfstate"
   }
 }
 
@@ -32,9 +30,7 @@ resource "aws_s3_bucket_versioning" "donas_tfstate_bucket" {
 }
 
 
-# -------------------------
-# DynamoDB for locking
-# -------------------------
+# - DynamoDB for locking
 resource "aws_dynamodb_table" "donas_tfstate_lock" {
   name         = "donas-tfstate-lock"
   table_class  = "STANDARD"
@@ -47,8 +43,8 @@ resource "aws_dynamodb_table" "donas_tfstate_lock" {
   }
 
   tags = {
-    "app.donas.me/created-by"     = "haeram.kim1"
-    "app.donas.me/resource-group" = "tfstate"
-    "app.donas.me/tier"           = "production"
+    "app.donas.me/tier"       = "production"
+    "obj.donas.me/created-by" = "root"
+    "obj.donas.me/group"      = "tfstate"
   }
 }

@@ -3,11 +3,13 @@ resource "aws_iam_user" "haeram_kim1" {
   path = "/"
 
   tags = {
-    "app.donas.me/tier"         = "development"
-    "content.donas.me/saved-at" = "hrk-MacBookPro.local"
-    "user.donas.me/teamname"    = "development"
-    "user.donas.me/user-role"   = "sre"
-    "user.donas.me/username"    = "Haeram Kim"
+    "app.donas.me/tier"       = "development"
+    "obj.donas.me/created-by" = "root"
+    "obj.donas.me/group"      = "auth"
+    "obj.donas.me/saved-at"   = "hrk-MacBookPro.local"
+    "user.donas.me/teamname"  = "development"
+    "user.donas.me/user-role" = "sre"
+    "user.donas.me/username"  = "Haeram Kim"
   }
 }
 

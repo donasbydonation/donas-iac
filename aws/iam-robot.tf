@@ -11,9 +11,10 @@ resource "aws_iam_user" "config_gh_action_robot" {
   path = "/"
 
   tags = {
-    "app.donas.me/created-by"     = "haeram.kim1"
-    "app.donas.me/resource-group" = "iam"
-    "doc.donas.me/saved-at"       = "github.com/Boost-projects/config"
+    "app.donas.me/tier"       = "production"
+    "obj.donas.me/created-by" = "haeram.kim1"
+    "obj.donas.me/group"      = "auth"
+    "obj.donas.me/saved-at"   = "github.com/Boost-projects/config"
   }
 }
 
