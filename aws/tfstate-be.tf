@@ -1,6 +1,6 @@
 # - S3
-resource "aws_s3_bucket" "donas_tfstate_bucket" {
-  bucket = "donas-tfstate-bucket"
+resource "aws_s3_bucket" "tfstate_bucket" {
+  bucket = format("%s-bucket", var.tfstate_name)
 
   tags = {
     "app.donas.me/tier"       = "production"
@@ -9,8 +9,8 @@ resource "aws_s3_bucket" "donas_tfstate_bucket" {
   }
 }
 
-resource "aws_s3_bucket_server_side_encryption_configuration" "donas_tfstate_bucket" {
-  bucket = aws_s3_bucket.donas_tfstate_bucket.bucket
+resource "aws_s3_bucket_server_side_encryption_configuration" "tfstate_bucket" {
+  bucket = aws_s3_bucket.tfstate_bucket.bucket
 
   rule {
     bucket_key_enabled = true
@@ -21,8 +21,8 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "donas_tfstate_buc
   }
 }
 
-resource "aws_s3_bucket_versioning" "donas_tfstate_bucket" {
-  bucket = aws_s3_bucket.donas_tfstate_bucket.id
+resource "aws_s3_bucket_versioning" "tfstate_bucket" {
+  bucket = aws_s3_bucket.tfstate_bucket.id
 
   versioning_configuration {
     status = "Enabled"
@@ -31,8 +31,8 @@ resource "aws_s3_bucket_versioning" "donas_tfstate_bucket" {
 
 
 # - DynamoDB for locking
-resource "aws_dynamodb_table" "donas_tfstate_lock" {
-  name         = "donas-tfstate-lock"
+resource "aws_dynamodb_table" "tfstate_lock" {
+  name         = format("%s-lock", var.tfstate_name)
   table_class  = "STANDARD"
   hash_key     = "LockID"
   billing_mode = "PAY_PER_REQUEST"
