@@ -31,7 +31,8 @@ resource "aws_route_table" "main_pub" {
   tags = {
     Name                      = format("%s-pub", aws_vpc.main.tags.Name)
     "app.donas.me/tier"       = "production"
-    "arch.donas.me/tier"      = "public"
+    "arch.donas.me/access"    = "public"
+    "arch.donas.me/layer"     = "public"
     "obj.donas.me/created-by" = "haeram.kim1"
     "obj.donas.me/group"      = "network"
   }
@@ -53,7 +54,8 @@ resource "aws_subnet" "main_pub_az1" {
   tags = {
     Name                      = format("%s-pub-az1", aws_vpc.main.tags.Name)
     "app.donas.me/tier"       = "production"
-    "arch.donas.me/tier"      = "public"
+    "arch.donas.me/access"    = "public"
+    "arch.donas.me/layer"     = "public"
     "obj.donas.me/created-by" = "haeram.kim1"
     "obj.donas.me/group"      = "network"
   }
@@ -74,7 +76,8 @@ resource "aws_subnet" "main_pub_az2" {
   tags = {
     Name                      = format("%s-pub-az2", aws_vpc.main.tags.Name)
     "app.donas.me/tier"       = "production"
-    "arch.donas.me/tier"      = "public"
+    "arch.donas.me/access"    = "public"
+    "arch.donas.me/layer"     = "public"
     "obj.donas.me/created-by" = "haeram.kim1"
     "obj.donas.me/group"      = "network"
   }
