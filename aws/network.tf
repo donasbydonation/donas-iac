@@ -55,6 +55,7 @@ resource "aws_subnet" "main_pub_az1" {
     Name                      = format("%s-pub-az1", aws_vpc.main.tags.Name)
     "app.donas.me/tier"       = "production"
     "arch.donas.me/access"    = "public"
+    "arch.donas.me/az"        = format("%sa", var.app_region)
     "arch.donas.me/layer"     = "public"
     "obj.donas.me/created-by" = "haeram.kim1"
     "obj.donas.me/group"      = "network"
@@ -77,6 +78,7 @@ resource "aws_subnet" "main_pub_az2" {
     Name                      = format("%s-pub-az2", aws_vpc.main.tags.Name)
     "app.donas.me/tier"       = "production"
     "arch.donas.me/access"    = "public"
+    "arch.donas.me/az"        = format("%sc", var.app_region)
     "arch.donas.me/layer"     = "public"
     "obj.donas.me/created-by" = "haeram.kim1"
     "obj.donas.me/group"      = "network"
@@ -121,6 +123,7 @@ resource "aws_subnet" "main_priv_api_az1" {
     Name                      = format("%s-priv-api-az1", aws_vpc.main.tags.Name)
     "app.donas.me/tier"       = "production"
     "arch.donas.me/access"    = "private"
+    "arch.donas.me/az"        = format("%sa", var.app_region)
     "arch.donas.me/layer"     = "api"
     "obj.donas.me/created-by" = "haeram.kim1"
     "obj.donas.me/group"      = "network"
@@ -143,6 +146,7 @@ resource "aws_subnet" "main_priv_api_az2" {
     Name                      = format("%s-priv-api-az2", aws_vpc.main.tags.Name)
     "app.donas.me/tier"       = "production"
     "arch.donas.me/access"    = "private"
+    "arch.donas.me/az"        = format("%sc", var.app_region)
     "arch.donas.me/layer"     = "api"
     "obj.donas.me/created-by" = "haeram.kim1"
     "obj.donas.me/group"      = "network"
@@ -165,6 +169,7 @@ resource "aws_subnet" "main_priv_db_az1" {
     Name                      = format("%s-priv-db-az1", aws_vpc.main.tags.Name)
     "app.donas.me/tier"       = "production"
     "arch.donas.me/access"    = "private"
+    "arch.donas.me/az"        = format("%sa", var.app_region)
     "arch.donas.me/layer"     = "db"
     "obj.donas.me/created-by" = "haeram.kim1"
     "obj.donas.me/group"      = "network"
@@ -187,6 +192,7 @@ resource "aws_subnet" "main_priv_db_az2" {
     Name                      = format("%s-priv-db-az2", aws_vpc.main.tags.Name)
     "app.donas.me/tier"       = "production"
     "arch.donas.me/access"    = "private"
+    "arch.donas.me/az"        = format("%sc", var.app_region)
     "arch.donas.me/layer"     = "db"
     "obj.donas.me/created-by" = "haeram.kim1"
     "obj.donas.me/group"      = "network"
