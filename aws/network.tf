@@ -153,3 +153,47 @@ resource "aws_route_table_association" "main_priv_api_az2" {
   subnet_id      = aws_subnet.main_priv_api_az2.id
   route_table_id = aws_route_table.main_priv.id
 }
+
+## DB Layer (AZ1)
+resource "aws_subnet" "main_priv_db_az1" {
+  vpc_id     = aws_vpc.main.id
+  cidr_block = format("%s.3.0/24", var.vpc_cidr_prefix)
+
+  availability_zone = format("%sa", var.app_region)
+
+  tags = {
+    Name                      = format("%s-priv-db-az1", aws_vpc.main.tags.Name)
+    "app.donas.me/tier"       = "production"
+    "arch.donas.me/access"    = "private"
+    "arch.donas.me/layer"     = "db"
+    "obj.donas.me/created-by" = "haeram.kim1"
+    "obj.donas.me/group"      = "network"
+  }
+}
+
+resource "aws_route_table_association" "main_priv_db_az1" {
+  subnet_id      = aws_subnet.main_priv_db_az1.id
+  route_table_id = aws_route_table.main_priv.id
+}
+
+## DB Layer (AZ2)
+resource "aws_subnet" "main_priv_db_az2" {
+  vpc_id     = aws_vpc.main.id
+  cidr_block = format("%s.6.0/24", var.vpc_cidr_prefix)
+
+  availability_zone = format("%sc", var.app_region)
+
+  tags = {
+    Name                      = format("%s-priv-db-az2", aws_vpc.main.tags.Name)
+    "app.donas.me/tier"       = "production"
+    "arch.donas.me/access"    = "private"
+    "arch.donas.me/layer"     = "db"
+    "obj.donas.me/created-by" = "haeram.kim1"
+    "obj.donas.me/group"      = "network"
+  }
+}
+
+resource "aws_route_table_association" "main_priv_db_az2" {
+  subnet_id      = aws_subnet.main_priv_db_az2.id
+  route_table_id = aws_route_table.main_priv.id
+}
