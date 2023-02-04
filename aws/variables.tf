@@ -9,3 +9,7 @@ variable "tfstate_name" {
 variable "vpc_cidr_prefix" {
   type = string
 }
+
+variable "app_region" {
+  type = string
+}
