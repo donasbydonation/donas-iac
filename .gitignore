@@ -31,5 +31,5 @@ override.tf.json
 # Personal ignorations
 .DS_Store
 *.env
-*.tmp.*
+*.tmp
 *.swp
