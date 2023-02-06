@@ -31,3 +31,33 @@ module "vpc" {
     "arch.donas.me/layer"     = "db"
   }
 }
+
+module "nat" {
+  source = "int128/nat-instance/aws"
+  version = "2.1.0"
+
+  name                        = var.app_name
+  vpc_id                      = module.vpc.vpc_id
+  public_subnet               = module.vpc.public_subnets[0]
+  private_subnets_cidr_blocks = module.vpc.private_subnets_cidr_blocks
+  private_route_table_ids     = module.vpc.private_route_table_ids
+
+  tags = {
+    "app.donas.me/tier"       = "production"
+    "obj.donas.me/created-by" = "haeram.kim1"
+    "obj.donas.me/group"      = "network"
+  }
+}
+
+resource "aws_eip" "nat" {
+  network_interface = module.nat.eni_id
+
+  tags = {
+    "Name" = format("nat-instance-%s", var.app_name)
+    "app.donas.me/tier"       = "production"
+    "obj.donas.me/created-by" = "haeram.kim1"
+    "obj.donas.me/group"      = "network"
+    "arch.donas.me/access"    = "public"
+    "arch.donas.me/layer"     = "public"
+  }
+}
