@@ -32,6 +32,9 @@ module "vpc" {
   }
 }
 
+# -------------------------
+# DISCLAIMER: Using NAT instance is not recommended; MUST migrate to NAT gateway later
+# -------------------------
 module "nat" {
   source = "int128/nat-instance/aws"
   version = "2.1.0"
