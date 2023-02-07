@@ -1,3 +1,4 @@
+# https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/3.19.0
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "3.19.0"
@@ -35,6 +36,7 @@ module "vpc" {
 # -------------------------
 # DISCLAIMER: Using NAT instance is not recommended; MUST migrate to NAT gateway later
 # -------------------------
+# https://registry.terraform.io/modules/int128/nat-instance/aws/2.1.0
 module "nat" {
   source = "int128/nat-instance/aws"
   version = "2.1.0"
