@@ -35,21 +35,7 @@ resource "aws_security_group" "server" {
   }
 }
 
-## - SG ingress rule: API/TCP
-resource "aws_security_group_rule" "server_ing_api" {
-  type                     = "ingress"
-  from_port                = var.api_port
-  to_port                  = var.api_port
-  protocol                 = "TCP"
-  source_security_group_id = aws_security_group.lb.id
-  security_group_id        = aws_security_group.server.id
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-## - SG ingress rule: Web/TCP
+## - SG ingress rule: {{web_port}}/TCP
 resource "aws_security_group_rule" "server_ing_web" {
   type                     = "ingress"
   from_port                = var.web_port
