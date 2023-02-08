@@ -13,3 +13,15 @@ variable "vpc_cidr_prefix" {
 variable "app_region" {
   type = string
 }
+
+variable "default_instance_type" {
+  type = string
+}
+
+variable "web_port" {
+  type = number
+}
+
+variable "ami_owner" {
+  type = string
+}
