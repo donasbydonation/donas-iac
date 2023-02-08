@@ -6,11 +6,11 @@ resource "aws_key_pair" "ssh" {
 
 # - SG
 resource "aws_security_group" "server" {
-  name        = format("%s-server", var.app_name)
-  vpc_id      = module.vpc.vpc_id
+  name   = format("%s-server", var.app_name)
+  vpc_id = module.vpc.vpc_id
 
   tags = {
-    Name = format("%s-server", var.app_name)
+    Name                      = format("%s-server", var.app_name)
     "app.donas.me/tier"       = "production"
     "obj.donas.me/created-by" = "haeram.kim1"
     "obj.donas.me/group"      = "access-control"

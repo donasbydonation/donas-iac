@@ -10,19 +10,19 @@ module "asg" {
   min_size            = 1
   max_size            = 2
   desired_capacity    = 1
-  user_data         = file("./data/ec2-userdata.b64")
-  image_id      = data.aws_ami.ubuntu_2004.id
-  instance_type = var.default_instance_type
-  key_name  = format("%s-ssh", var.app_name)
+  user_data           = file("./data/ec2-userdata.b64")
+  image_id            = data.aws_ami.ubuntu_2004.id
+  instance_type       = var.default_instance_type
+  key_name            = format("%s-ssh", var.app_name)
 
   # SG
-  security_groups          = [aws_security_group.server.id]
+  security_groups = [aws_security_group.server.id]
 
   # IAM instance profile
   create_iam_instance_profile = true
   iam_role_name               = format("%s-server", var.app_name)
   iam_role_policies = {
-    AWSCodeDeployRole = data.aws_iam_policy.aws_codedeploy_role.arn
+    AWSCodeDeployRole       = data.aws_iam_policy.aws_codedeploy_role.arn
     AWSCodeDeployFullAccess = data.aws_iam_policy.aws_codedeploy_fullaccess.arn
   }
 
@@ -30,7 +30,7 @@ module "asg" {
   tag_specifications = [
     {
       resource_type = "instance"
-      tags          = {
+      tags = {
         "obj.donas.me/controller" = "donas-app" # TODO
       }
     }
