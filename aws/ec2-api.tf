@@ -13,3 +13,9 @@ data "aws_ami" "ubuntu_2004" {
     values = ["hvm"]
   }
 }
+
+# - SSH RSA keypair
+resource "aws_key_pair" "ssh" {
+  key_name   = format("%s-ssh", var.app_name)
+  public_key = file("./data/ec2-ssh.pub")
+}
