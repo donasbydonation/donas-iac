@@ -1,3 +1,4 @@
+# https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/3.19.0
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "3.19.0"
@@ -17,26 +18,27 @@ module "vpc" {
   }
 
   public_subnet_tags = {
-    "arch.donas.me/access"    = "public"
-    "arch.donas.me/layer"     = "public"
+    "arch.donas.me/access" = "public"
+    "arch.donas.me/layer"  = "public"
   }
 
   private_subnet_tags = {
-    "arch.donas.me/access"    = "private"
-    "arch.donas.me/layer"     = "api"
+    "arch.donas.me/access" = "private"
+    "arch.donas.me/layer"  = "server"
   }
 
   database_subnet_tags = {
-    "arch.donas.me/access"    = "private"
-    "arch.donas.me/layer"     = "db"
+    "arch.donas.me/access" = "private"
+    "arch.donas.me/layer"  = "db"
   }
 }
 
 # -------------------------
 # DISCLAIMER: Using NAT instance is not recommended; MUST migrate to NAT gateway later
 # -------------------------
+# https://registry.terraform.io/modules/int128/nat-instance/aws/2.1.0
 module "nat" {
-  source = "int128/nat-instance/aws"
+  source  = "int128/nat-instance/aws"
   version = "2.1.0"
 
   name                        = var.app_name
@@ -49,6 +51,8 @@ module "nat" {
     "app.donas.me/tier"       = "production"
     "obj.donas.me/created-by" = "haeram.kim1"
     "obj.donas.me/group"      = "network"
+    "arch.donas.me/access"    = "public"
+    "arch.donas.me/layer"     = "public"
   }
 }
 
@@ -56,7 +60,7 @@ resource "aws_eip" "nat" {
   network_interface = module.nat.eni_id
 
   tags = {
-    "Name" = format("nat-instance-%s", var.app_name)
+    "Name"                    = format("nat-instance-%s", var.app_name)
     "app.donas.me/tier"       = "production"
     "obj.donas.me/created-by" = "haeram.kim1"
     "obj.donas.me/group"      = "network"
