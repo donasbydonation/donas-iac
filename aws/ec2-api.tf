@@ -29,7 +29,7 @@ resource "aws_security_group" "server" {
     Name = format("%s-server", var.app_name)
     "app.donas.me/tier"       = "production"
     "obj.donas.me/created-by" = "haeram.kim1"
-    "obj.donas.me/group"      = "network"
+    "obj.donas.me/group"      = "access-control"
     "arch.donas.me/access"    = "private"
     "arch.donas.me/layer"     = "api"
   }
