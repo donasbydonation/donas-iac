@@ -26,8 +26,8 @@ module "alb" {
 
   load_balancer_type = "application"
 
-  vpc_id             = module.vpc.vpc_id
-  subnets            = module.vpc.public_subnets
+  vpc_id  = module.vpc.vpc_id
+  subnets = module.vpc.public_subnets
 
   security_group_rules = {
     ingress_all_http = {
@@ -45,10 +45,10 @@ module "alb" {
       cidr_blocks = ["0.0.0.0/0"]
     }
     ingress_web = {
-      type        = "ingress"
-      from_port   = var.web_port
-      to_port     = var.web_port
-      protocol    = "TCP"
+      type                     = "ingress"
+      from_port                = var.web_port
+      to_port                  = var.web_port
+      protocol                 = "TCP"
       source_security_group_id = aws_security_group.server.id
     }
     egress_all_https = {
@@ -59,10 +59,10 @@ module "alb" {
       cidr_blocks = ["0.0.0.0/0"]
     }
     egress_web = {
-      type        = "egress"
-      from_port   = var.web_port
-      to_port     = var.web_port
-      protocol    = "TCP"
+      type                     = "egress"
+      from_port                = var.web_port
+      to_port                  = var.web_port
+      protocol                 = "TCP"
       source_security_group_id = aws_security_group.server.id
     }
   }
@@ -78,10 +78,10 @@ module "alb" {
 
   https_listeners = [
     {
-      port                 = 443
-      protocol             = "HTTPS"
-      certificate_arn      = module.acm.acm_certificate_arn
-      target_group_index   = 0
+      port               = 443
+      protocol           = "HTTPS"
+      certificate_arn    = module.acm.acm_certificate_arn
+      target_group_index = 0
     }
   ]
 
