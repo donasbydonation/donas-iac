@@ -37,9 +37,9 @@ module "asg" {
   ]
 
   tags = {
-    "app.donas.me/tier"       = "production"
-    "obj.donas.me/group"      = "server"
-    "arch.donas.me/access"    = "private"
-    "arch.donas.me/layer"     = "server"
+    "app.donas.me/tier"    = "production"
+    "obj.donas.me/group"   = "server"
+    "arch.donas.me/access" = "private"
+    "arch.donas.me/layer"  = "server"
   }
 }
