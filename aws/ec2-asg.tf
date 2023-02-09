@@ -38,7 +38,6 @@ module "asg" {
 
   tags = {
     "app.donas.me/tier"       = "production"
-    "obj.donas.me/created-by" = "haeram.kim1"
     "obj.donas.me/group"      = "server"
     "arch.donas.me/access"    = "private"
     "arch.donas.me/layer"     = "server"
