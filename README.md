@@ -19,3 +19,11 @@
 | `AWS_ACCESS_KEY_ID` | AWS access key id for terraforming |
 | `AWS_SECRET_ACCESS_KEY` | AWS secret access key for terraforming |
 | `TF_VAR_AWS_ASG_USER_DATA` | `user_data` for launch template (AWS Auto Scaling Group) |
+
+### Helpers
+
+- Include every required environment variables for terraforming, and
+
+| Name | Description |
+| --- | --- |
+| `GH_TOKEN` | GitHub token to access private repositories |
