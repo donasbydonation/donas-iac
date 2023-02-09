@@ -34,6 +34,10 @@ variable "route53_hz" {
   type = string
 }
 
+variable "rds_instance_type" {
+  type = string
+}
+
 variable "AWS_RDS_DBNAME" {
   type = string
 }
