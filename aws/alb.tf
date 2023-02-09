@@ -3,7 +3,7 @@ module "route53_records" {
   source  = "terraform-aws-modules/route53/aws//modules/records"
   version = "~> 2.0"
 
-  zone_id = module.route53_hz.route53_zone_zone_id[var.route53_hz]
+  zone_id = module.route53_hz.route53_zone_zone_id[local.route53.hz_name]
 
   records = [
     {
@@ -22,12 +22,12 @@ module "alb" {
   source  = "terraform-aws-modules/alb/aws"
   version = "~> 8.0"
 
-  name = format("%s-lb", var.app_name)
+  name = format("%s-lb", local.app.name)
 
   load_balancer_type = "application"
 
-  vpc_id             = module.vpc.vpc_id
-  subnets            = module.vpc.public_subnets
+  vpc_id  = module.vpc.vpc_id
+  subnets = module.vpc.public_subnets
 
   security_group_rules = {
     ingress_all_http = {
@@ -45,10 +45,10 @@ module "alb" {
       cidr_blocks = ["0.0.0.0/0"]
     }
     ingress_web = {
-      type        = "ingress"
-      from_port   = var.web_port
-      to_port     = var.web_port
-      protocol    = "TCP"
+      type                     = "ingress"
+      from_port                = local.app.web_port
+      to_port                  = local.app.web_port
+      protocol                 = "TCP"
       source_security_group_id = aws_security_group.server.id
     }
     egress_all_https = {
@@ -59,10 +59,10 @@ module "alb" {
       cidr_blocks = ["0.0.0.0/0"]
     }
     egress_web = {
-      type        = "egress"
-      from_port   = var.web_port
-      to_port     = var.web_port
-      protocol    = "TCP"
+      type                     = "egress"
+      from_port                = local.app.web_port
+      to_port                  = local.app.web_port
+      protocol                 = "TCP"
       source_security_group_id = aws_security_group.server.id
     }
   }
@@ -71,17 +71,17 @@ module "alb" {
     {
       name_prefix      = "asg"
       backend_protocol = "HTTP"
-      backend_port     = var.web_port
+      backend_port     = local.app.web_port
       target_type      = "instance"
     }
   ]
 
   https_listeners = [
     {
-      port                 = 443
-      protocol             = "HTTPS"
-      certificate_arn      = module.acm.acm_certificate_arn
-      target_group_index   = 0
+      port               = 443
+      protocol           = "HTTPS"
+      certificate_arn    = module.acm.acm_certificate_arn
+      target_group_index = 0
     }
   ]
 
