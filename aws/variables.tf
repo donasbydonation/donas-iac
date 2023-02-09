@@ -29,3 +29,7 @@ variable "ami_owner" {
 variable "AWS_ASG_USER_DATA" {
   type = string
 }
+
+variable "route53_hz" {
+  type = string
+}

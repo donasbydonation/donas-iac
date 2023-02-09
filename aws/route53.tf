@@ -3,7 +3,7 @@ module "route53_hz" {
   version = "~> 2.0"
 
   zones = {
-    "donas.me" = {
+    "${var.route53_hz}" = {
       tags = {
       }
     }
