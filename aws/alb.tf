@@ -1,3 +1,22 @@
+# - ALB A Record
+module "route53_records" {
+  source  = "terraform-aws-modules/route53/aws//modules/records"
+  version = "~> 2.0"
+
+  zone_id = module.route53_hz.route53_zone_zone_id[var.route53_hz]
+
+  records = [
+    {
+      name = ""
+      type = "A"
+      alias = {
+        name    = module.alb.lb_dns_name
+        zone_id = module.alb.lb_zone_id
+      }
+    }
+  ]
+}
+
 # - ALB
 module "alb" {
   source  = "terraform-aws-modules/alb/aws"
