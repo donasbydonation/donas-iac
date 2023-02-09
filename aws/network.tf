@@ -3,12 +3,12 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "3.19.0"
 
-  name                 = var.app_name
-  cidr                 = format("%s.0.0/16", var.vpc_cidr_prefix)
-  azs                  = [format("%sa", var.app_region), format("%sc", var.app_region)]
-  public_subnets       = [format("%s.11.0/24", var.vpc_cidr_prefix), format("%s.12.0/24", var.vpc_cidr_prefix)]
-  private_subnets      = [format("%s.21.0/24", var.vpc_cidr_prefix), format("%s.22.0/24", var.vpc_cidr_prefix)]
-  database_subnets     = [format("%s.31.0/24", var.vpc_cidr_prefix), format("%s.32.0/24", var.vpc_cidr_prefix)]
+  name                 = local.app.name
+  cidr                 = format("%s.0.0/16", local.vpc.cidr_prefix)
+  azs                  = [format("%sa", local.app.region), format("%sc", local.app.region)]
+  public_subnets       = [format("%s.11.0/24", local.vpc.cidr_prefix), format("%s.12.0/24", local.vpc.cidr_prefix)]
+  private_subnets      = [format("%s.21.0/24", local.vpc.cidr_prefix), format("%s.22.0/24", local.vpc.cidr_prefix)]
+  database_subnets     = [format("%s.31.0/24", local.vpc.cidr_prefix), format("%s.32.0/24", local.vpc.cidr_prefix)]
   enable_dns_hostnames = true
 
   tags = {
@@ -40,7 +40,7 @@ module "nat" {
   source  = "int128/nat-instance/aws"
   version = "2.1.0"
 
-  name                        = var.app_name
+  name                        = local.app.name
   vpc_id                      = module.vpc.vpc_id
   public_subnet               = module.vpc.public_subnets[0]
   private_subnets_cidr_blocks = module.vpc.private_subnets_cidr_blocks
@@ -58,7 +58,7 @@ resource "aws_eip" "nat" {
   network_interface = module.nat.eni_id
 
   tags = {
-    "Name"                 = format("nat-instance-%s", var.app_name)
+    "Name"                 = format("nat-instance-%s", local.app.name)
     "app.donas.me/tier"    = "production"
     "obj.donas.me/group"   = "network"
     "arch.donas.me/access" = "public"

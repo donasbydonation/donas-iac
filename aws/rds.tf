@@ -1,10 +1,10 @@
 # - SG
 resource "aws_security_group" "db" {
-  name   = format("%s-db", var.app_name)
+  name   = format("%s-db", local.app.name)
   vpc_id = module.vpc.vpc_id
 
   tags = {
-    Name                   = format("%s-db", var.app_name)
+    Name                   = format("%s-db", local.app.name)
     "app.donas.me/tier"    = "production"
     "obj.donas.me/group"   = "access-control"
     "arch.donas.me/access" = "private"
@@ -45,16 +45,16 @@ module "rds" {
   source  = "terraform-aws-modules/rds/aws"
   version = "5.4.1"
 
-  identifier = format("%s-db", var.app_name)
+  identifier = format("%s-db", local.app.name)
 
-  engine               = "mariadb"
-  engine_version       = "10.5"
-  family               = "mariadb10.5"
-  major_engine_version = "10.5"
+  engine               = local.rds.engine_type
+  engine_version       = local.rds.engine_version
+  family               = format("%s%s", local.rds.engine_type, local.rds.engine_version)
+  major_engine_version = local.rds.engine_version
 
-  instance_class        = var.rds_instance_type
-  allocated_storage     = 20
-  max_allocated_storage = 50
+  instance_class        = local.rds.instance_type
+  allocated_storage     = local.rds.storage_size
+  max_allocated_storage = local.rds.max_storage_size
 
   db_name  = var.AWS_RDS_DBNAME
   port     = var.AWS_RDS_PORT

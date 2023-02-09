@@ -1,6 +1,6 @@
 # - S3
 resource "aws_s3_bucket" "tfstate_bucket" {
-  bucket = format("%s-bucket", var.tfstate_name)
+  bucket = format("%s-tfstate-bucket", local.app.name)
 
   tags = {
     "app.donas.me/tier"       = "production"
@@ -32,7 +32,7 @@ resource "aws_s3_bucket_versioning" "tfstate_bucket" {
 
 # - DynamoDB for locking
 resource "aws_dynamodb_table" "tfstate_lock" {
-  name         = format("%s-lock", var.tfstate_name)
+  name         = format("%s-tfstate-lock", local.app.name)
   table_class  = "STANDARD"
   hash_key     = "LockID"
   billing_mode = "PAY_PER_REQUEST"

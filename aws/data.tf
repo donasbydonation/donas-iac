@@ -2,7 +2,7 @@
 ## - Ubuntu 20.04
 data "aws_ami" "ubuntu_2004" {
   most_recent = true
-  owners      = [var.ami_owner]
+  owners      = [local.ec2.ubuntu_ami_owner]
 
   filter {
     name   = "name"

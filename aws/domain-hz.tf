@@ -3,7 +3,7 @@ module "route53_hz" {
   version = "~> 2.0"
 
   zones = {
-    "${var.route53_hz}" = {
+    "${local.route53.hz_name}" = {
       tags = {
       }
     }

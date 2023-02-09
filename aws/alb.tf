@@ -3,7 +3,7 @@ module "route53_records" {
   source  = "terraform-aws-modules/route53/aws//modules/records"
   version = "~> 2.0"
 
-  zone_id = module.route53_hz.route53_zone_zone_id[var.route53_hz]
+  zone_id = module.route53_hz.route53_zone_zone_id[local.route53.hz_name]
 
   records = [
     {
@@ -22,7 +22,7 @@ module "alb" {
   source  = "terraform-aws-modules/alb/aws"
   version = "~> 8.0"
 
-  name = format("%s-lb", var.app_name)
+  name = format("%s-lb", local.app.name)
 
   load_balancer_type = "application"
 
@@ -46,8 +46,8 @@ module "alb" {
     }
     ingress_web = {
       type                     = "ingress"
-      from_port                = var.web_port
-      to_port                  = var.web_port
+      from_port                = local.app.web_port
+      to_port                  = local.app.web_port
       protocol                 = "TCP"
       source_security_group_id = aws_security_group.server.id
     }
@@ -60,8 +60,8 @@ module "alb" {
     }
     egress_web = {
       type                     = "egress"
-      from_port                = var.web_port
-      to_port                  = var.web_port
+      from_port                = local.app.web_port
+      to_port                  = local.app.web_port
       protocol                 = "TCP"
       source_security_group_id = aws_security_group.server.id
     }
@@ -71,7 +71,7 @@ module "alb" {
     {
       name_prefix      = "asg"
       backend_protocol = "HTTP"
-      backend_port     = var.web_port
+      backend_port     = local.app.web_port
       target_type      = "instance"
     }
   ]

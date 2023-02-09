@@ -2,11 +2,11 @@ module "acm" {
   source  = "terraform-aws-modules/acm/aws"
   version = "~> 4.0"
 
-  domain_name = var.route53_hz
-  zone_id     = module.route53_hz.route53_zone_zone_id[var.route53_hz]
+  domain_name = local.route53.hz_name
+  zone_id     = module.route53_hz.route53_zone_zone_id[local.route53.hz_name]
 
   subject_alternative_names = [
-    "*.${var.route53_hz}"
+    "*.${local.route53.hz_name}"
   ]
 
   wait_for_validation = true

@@ -4,7 +4,7 @@ module "asg" {
   version = "6.7.1"
 
   # Autoscaling group
-  name = format("%s-server", var.app_name)
+  name = format("%s-server", local.app.name)
 
   vpc_zone_identifier = module.vpc.private_subnets
   min_size            = 1
@@ -12,8 +12,8 @@ module "asg" {
   desired_capacity    = 1
   user_data           = var.AWS_ASG_USER_DATA
   image_id            = data.aws_ami.ubuntu_2004.id
-  instance_type       = var.default_instance_type
-  key_name            = format("%s-ssh", var.app_name)
+  instance_type       = local.ec2.instance_type
+  key_name            = format("%s-ssh", local.app.name)
 
   # ALB
   target_group_arns = module.alb.target_group_arns
@@ -23,7 +23,7 @@ module "asg" {
 
   # IAM instance profile
   create_iam_instance_profile = true
-  iam_role_name               = format("%s-server", var.app_name)
+  iam_role_name               = format("%s-server", local.app.name)
   iam_role_policies = {
     AWSCodeDeployRole       = data.aws_iam_policy.aws_codedeploy_role.arn
     AWSCodeDeployFullAccess = data.aws_iam_policy.aws_codedeploy_fullaccess.arn
