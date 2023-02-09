@@ -16,4 +16,10 @@ terraform {
 
 provider "aws" {
   region = "ap-northeast-2"
+
+  default_tags {
+    tags = {
+      "obj.donas.me/created-by" = "haeram.kim1"
+    }
+  }
 }

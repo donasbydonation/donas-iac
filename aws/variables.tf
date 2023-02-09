@@ -25,3 +25,11 @@ variable "web_port" {
 variable "ami_owner" {
   type = string
 }
+
+variable "AWS_ASG_USER_DATA" {
+  type = string
+}
+
+variable "route53_hz" {
+  type = string
+}

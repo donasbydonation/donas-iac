@@ -4,12 +4,11 @@ resource "aws_security_group" "lb" {
   vpc_id = module.vpc.vpc_id
 
   tags = {
-    Name                      = format("%s-lb", var.app_name)
-    "app.donas.me/tier"       = "production"
-    "obj.donas.me/created-by" = "haeram.kim1"
-    "obj.donas.me/group"      = "access-control"
-    "arch.donas.me/access"    = "public"
-    "arch.donas.me/layer"     = "public"
+    Name                   = format("%s-lb", var.app_name)
+    "app.donas.me/tier"    = "production"
+    "obj.donas.me/group"   = "access-control"
+    "arch.donas.me/access" = "public"
+    "arch.donas.me/layer"  = "public"
   }
 }
 

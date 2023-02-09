@@ -12,9 +12,8 @@ module "vpc" {
   enable_dns_hostnames = true
 
   tags = {
-    "app.donas.me/tier"       = "production"
-    "obj.donas.me/created-by" = "haeram.kim1"
-    "obj.donas.me/group"      = "network"
+    "app.donas.me/tier"  = "production"
+    "obj.donas.me/group" = "network"
   }
 
   public_subnet_tags = {
@@ -48,11 +47,10 @@ module "nat" {
   private_route_table_ids     = module.vpc.private_route_table_ids
 
   tags = {
-    "app.donas.me/tier"       = "production"
-    "obj.donas.me/created-by" = "haeram.kim1"
-    "obj.donas.me/group"      = "network"
-    "arch.donas.me/access"    = "public"
-    "arch.donas.me/layer"     = "public"
+    "app.donas.me/tier"    = "production"
+    "obj.donas.me/group"   = "network"
+    "arch.donas.me/access" = "public"
+    "arch.donas.me/layer"  = "public"
   }
 }
 
@@ -60,11 +58,10 @@ resource "aws_eip" "nat" {
   network_interface = module.nat.eni_id
 
   tags = {
-    "Name"                    = format("nat-instance-%s", var.app_name)
-    "app.donas.me/tier"       = "production"
-    "obj.donas.me/created-by" = "haeram.kim1"
-    "obj.donas.me/group"      = "network"
-    "arch.donas.me/access"    = "public"
-    "arch.donas.me/layer"     = "public"
+    "Name"                 = format("nat-instance-%s", var.app_name)
+    "app.donas.me/tier"    = "production"
+    "obj.donas.me/group"   = "network"
+    "arch.donas.me/access" = "public"
+    "arch.donas.me/layer"  = "public"
   }
 }

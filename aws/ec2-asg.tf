@@ -10,7 +10,7 @@ module "asg" {
   min_size            = 1
   max_size            = 2
   desired_capacity    = 1
-  user_data           = file("./data/ec2-userdata.b64")
+  user_data           = var.AWS_ASG_USER_DATA
   image_id            = data.aws_ami.ubuntu_2004.id
   instance_type       = var.default_instance_type
   key_name            = format("%s-ssh", var.app_name)
@@ -37,10 +37,9 @@ module "asg" {
   ]
 
   tags = {
-    "app.donas.me/tier"       = "production"
-    "obj.donas.me/created-by" = "haeram.kim1"
-    "obj.donas.me/group"      = "server"
-    "arch.donas.me/access"    = "private"
-    "arch.donas.me/layer"     = "server"
+    "app.donas.me/tier"    = "production"
+    "obj.donas.me/group"   = "server"
+    "arch.donas.me/access" = "private"
+    "arch.donas.me/layer"  = "server"
   }
 }
