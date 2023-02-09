@@ -24,7 +24,7 @@ resource "aws_security_group_rule" "server_ing_web" {
   from_port                = var.web_port
   to_port                  = var.web_port
   protocol                 = "TCP"
-  source_security_group_id = aws_security_group.lb.id
+  source_security_group_id = module.alb.security_group_id
   security_group_id        = aws_security_group.server.id
 
   lifecycle {

@@ -34,3 +34,4 @@ override.tf.json
 *tmp*
 *.swp
 *.pem
+!required.env

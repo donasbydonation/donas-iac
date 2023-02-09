@@ -15,6 +15,9 @@ module "asg" {
   instance_type       = var.default_instance_type
   key_name            = format("%s-ssh", var.app_name)
 
+  # ALB
+  target_group_arns = module.alb.target_group_arns
+
   # SG
   security_groups = [aws_security_group.server.id]
 
