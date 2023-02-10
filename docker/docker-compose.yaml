@@ -1,9 +1,0 @@
-version: '3.9'
-
-services:
-  nginx:
-    container_name: nginx
-    image: ghcr.io/donasbydonation/nginx:test
-    ports:
-      - 3000:80
-    restart: always
