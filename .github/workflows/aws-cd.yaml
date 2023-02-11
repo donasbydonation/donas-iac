@@ -26,6 +26,7 @@ jobs:
       - name: Terraform Format
         id: fmt
         run: terraform fmt -check
+        working-directory: aws
       - name: Terraform init
         run: terraform init -input=false
         working-directory: aws
