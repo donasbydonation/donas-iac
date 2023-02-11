@@ -23,33 +23,25 @@ rm -rf $FNAME
 
 # - Setup files
 ## - 'docker-compose.yaml'
-curl https://raw.githubusercontent.com/{{GH_OWNER}}/{{GH_REPO}}/{{GH_BRANCH}}/{{GH_PATH}}/docker-compose.yaml \
-    -H "Authorization: token {{GH_ACCESS_TOKEN}}" \
-    > docker-compose.yaml
-
-## - 'docker-compose.env'
 curl https://raw.githubusercontent.com/{{GH_OWNER}}/{{GH_REPO}}/{{GH_BRANCH}}/{{GH_PATH}}/docker-compose.b64 \
     -H "Authorization: token {{GH_ACCESS_TOKEN}}" \
     | base64 -d \
-    > docker-compose.env
-    
+    > docker-compose.yaml
+
 ## - 'docker-compose.sh'
 cat << EOF > docker-compose.sh
 #!/bin/bash
 
-docker compose --env-file docker-compose.env stop
-docker compose --env-file docker-compose.env rm -f
-curl https://raw.githubusercontent.com/{{GH_OWNER}}/{{GH_REPO}}/{{GH_BRANCH}}/{{GH_PATH}}/docker-compose.yaml \
-    -H "Authorization: token {{GH_ACCESS_TOKEN}}" \
-    > docker-compose.yaml
+docker compose stop
+docker compose rm -f
 curl https://raw.githubusercontent.com/{{GH_OWNER}}/{{GH_REPO}}/{{GH_BRANCH}}/{{GH_PATH}}/docker-compose.b64 \
     -H "Authorization: token {{GH_ACCESS_TOKEN}}" \
     | base64 -d \
-    > docker-compose.env
-docker compose --env-file docker-compose.env pull
-docker compose --env-file docker-compose.env up -d
+    > docker-compose.yaml
+docker compose pull
+docker compose up -d
 EOF
 chmod +x docker-compose.sh
 
 # - Start server
-./docker-compose.sh
+# ./docker-compose.sh
