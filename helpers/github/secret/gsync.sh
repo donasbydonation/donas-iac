@@ -2,7 +2,8 @@
 
 set -e
 
-ROOT_DIR="$(dirname $0)/../../.."
+DIRNAME=$(dirname $0)
+ROOT_DIR="$DIRNAME/../../.."
 
 source $ROOT_DIR/config.env
 source $ROOT_DIR/config.cred.env
@@ -10,8 +11,8 @@ source $ROOT_DIR/config.cred.env
 get-secret() {
     local name=$1
 
-    if `ls $name/make.sh &> /dev/null`; then
-        ./$name/make.sh
+    if `ls $DIRNAME/$name/make.sh &> /dev/null`; then
+        $DIRNAME/$name/make.sh
     elif `printenv $name &> /dev/null`; then
         printenv $name
     else
