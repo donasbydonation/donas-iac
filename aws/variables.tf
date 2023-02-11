@@ -2,6 +2,10 @@ variable "AWS_ASG_USER_DATA" {
   type = string
 }
 
+variable "AWS_RDS_ENGINE" {
+  type = string
+}
+
 variable "AWS_RDS_DBNAME" {
   type = string
 }

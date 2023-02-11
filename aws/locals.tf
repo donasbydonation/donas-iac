@@ -20,7 +20,6 @@ locals {
 
   rds = {
     instance_type    = "db.t3.micro"
-    engine_type      = "mariadb"
     engine_version   = "10.5"
     storage_size     = 20
     max_storage_size = 50
