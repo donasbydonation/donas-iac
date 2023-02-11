@@ -3,6 +3,7 @@
 set -e
 
 ROOT_DIR="$(dirname $0)/../../../.."
+echo $ROOT_DIR
 
 source $ROOT_DIR/config.env
 source $ROOT_DIR/config.cred.env

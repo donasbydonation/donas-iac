@@ -2,7 +2,8 @@
 
 set -e
 
-ROOT_DIR="$(dirname $0)/../.."
+DIRNAME=$(dirname $0)
+ROOT_DIR="$DIRNAME/../.."
 
 source $ROOT_DIR/config.env
 source $ROOT_DIR/config.cred.env
@@ -28,8 +29,8 @@ get-list() {
 get-env() {
     local name=$1
 
-    if `ls ./env/$name/make.sh &> /dev/null`; then
-        ./env/$name/make.sh
+    if `ls $DIRNAME/env/$name/make.sh &> /dev/null`; then
+        $DIRNAME/env/$name/make.sh
     elif `printenv $name &> /dev/null`; then
         printenv $name
     else
@@ -43,19 +44,17 @@ main() {
 
         validate $dir
 
-        echo "#!/bin/bash" > $dir/docker-compose.env
+        echo "#!/bin/bash" > $dir/autogen.docker-compose.env
         for name in $(get-list $dir); do
-            echo "export $name=$(get-env $name)" >> $dir/docker-compose.env
+            echo "export $name='$(get-env $name)'" >> $dir/autogen.docker-compose.env
         done
 
         docker compose \
             -f $dir/docker-compose.yaml \
-            --env-file $dir/docker-compose.env \
+            --env-file $dir/autogen.docker-compose.env \
             convert \
             | base64 \
             > $dir/docker-compose.b64
-
-        rm $dir/docker-compose.env
     done
 }
 
