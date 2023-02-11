@@ -47,9 +47,9 @@ module "rds" {
 
   identifier = format("%s-db", local.app.name)
 
-  engine               = local.rds.engine_type
+  engine               = var.AWS_RDS_ENGINE
   engine_version       = local.rds.engine_version
-  family               = format("%s%s", local.rds.engine_type, local.rds.engine_version)
+  family               = format("%s%s", var.AWS_RDS_ENGINE, local.rds.engine_version)
   major_engine_version = local.rds.engine_version
 
   instance_class        = local.rds.instance_type

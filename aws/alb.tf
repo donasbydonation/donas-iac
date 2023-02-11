@@ -46,8 +46,8 @@ module "alb" {
     }
     ingress_web = {
       type                     = "ingress"
-      from_port                = local.app.web_port
-      to_port                  = local.app.web_port
+      from_port                = var.APP_WEB_PORT
+      to_port                  = var.APP_WEB_PORT
       protocol                 = "TCP"
       source_security_group_id = aws_security_group.server.id
     }
@@ -60,8 +60,8 @@ module "alb" {
     }
     egress_web = {
       type                     = "egress"
-      from_port                = local.app.web_port
-      to_port                  = local.app.web_port
+      from_port                = var.APP_WEB_PORT
+      to_port                  = var.APP_WEB_PORT
       protocol                 = "TCP"
       source_security_group_id = aws_security_group.server.id
     }
@@ -71,7 +71,7 @@ module "alb" {
     {
       name_prefix      = "asg"
       backend_protocol = "HTTP"
-      backend_port     = local.app.web_port
+      backend_port     = var.APP_WEB_PORT
       target_type      = "instance"
     }
   ]
