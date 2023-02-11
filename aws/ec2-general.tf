@@ -21,8 +21,8 @@ resource "aws_security_group" "server" {
 ## - SG ingress rule: {{web_port}}/TCP
 resource "aws_security_group_rule" "server_ing_web" {
   type                     = "ingress"
-  from_port                = local.app.web_port
-  to_port                  = local.app.web_port
+  from_port                = var.APP_WEB_PORT
+  to_port                  = var.APP_WEB_PORT
   protocol                 = "TCP"
   source_security_group_id = module.alb.security_group_id
   security_group_id        = aws_security_group.server.id

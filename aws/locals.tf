@@ -1,8 +1,7 @@
 locals {
   app = {
-    name     = "donas"
-    region   = "ap-northeast-2"
-    web_port = 3000
+    name   = "donas"
+    region = "ap-northeast-2"
   }
 
   vpc = {
