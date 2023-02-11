@@ -10,9 +10,11 @@ source ./config.cred.env
 # -------------------------
 echo "[github/repository-secrets] Sync github repository secrets..."
 ./helpers/github/secret/gsync.sh
-
-echo "[github/repository-secrets] Importing generated environment variables..."
 source ./autogen.gh-secret.env
+echo
+
+echo "[github/repository-secrets] Used AWS ASG user_data is:"
+base64 -d <<< "$AWS_ASG_USER_DATA"
 echo
 
 # -------------------------
@@ -27,6 +29,10 @@ if `git ls-files -m --exclude-standard | grep docker/docker-compose.b64 &> /dev/
     git add docker/docker-compose.b64
     git commit -m "fix: docker-compose.b64 (autocommit; reason unknown)"
 fi
+echo
+
+echo "[docker/docker-compose] Used docker-compose.yaml is:"
+base64 -d docker/docker-compose.b64
 echo
 
 # -------------------------
