@@ -38,4 +38,4 @@ EOF
 chmod +x docker-compose.sh
 
 # - Start server
-# ./docker-compose.sh
+./docker-compose.sh
