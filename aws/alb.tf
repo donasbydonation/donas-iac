@@ -30,6 +30,7 @@ module "alb" {
   subnets = module.vpc.public_subnets
 
   security_group_rules = {
+    # Ingress
     ingress_all_http = {
       type        = "ingress"
       from_port   = 80
@@ -51,6 +52,14 @@ module "alb" {
       protocol                 = "TCP"
       source_security_group_id = aws_security_group.server.id
     }
+    ingress_api = {
+      type                     = "ingress"
+      from_port                = var.APP_API_PORT
+      to_port                  = var.APP_API_PORT
+      protocol                 = "TCP"
+      source_security_group_id = aws_security_group.server.id
+    }
+    # Egress
     egress_all_https = {
       type        = "egress"
       from_port   = 443
@@ -65,17 +74,16 @@ module "alb" {
       protocol                 = "TCP"
       source_security_group_id = aws_security_group.server.id
     }
+    egress_api = {
+      type                     = "egress"
+      from_port                = var.APP_API_PORT
+      to_port                  = var.APP_API_PORT
+      protocol                 = "TCP"
+      source_security_group_id = aws_security_group.server.id
+    }
   }
 
-  target_groups = [
-    {
-      name_prefix      = "asg"
-      backend_protocol = "HTTP"
-      backend_port     = var.APP_WEB_PORT
-      target_type      = "instance"
-    }
-  ]
-
+  # FE
   https_listeners = [
     {
       port               = 443
@@ -96,6 +104,62 @@ module "alb" {
         status_code = "HTTP_301"
       }
     }
+  ]
+
+  # BE
+  # index(0) API call: path(/api/*), priority 1
+  # index(1) Web call: path(/*), priority 10
+  target_groups = [
+    {
+      name_prefix      = "api"
+      backend_protocol = "HTTP"
+      backend_port     = var.APP_API_PORT
+      target_type      = "instance"
+    },
+    {
+      name_prefix      = "web"
+      backend_protocol = "HTTP"
+      backend_port     = var.APP_WEB_PORT
+      target_type      = "instance"
+    }
+  ]
+
+
+  https_listener_rules = [
+    {
+      https_listener_index = 0
+      priority             = 1
+
+      actions = [
+        {
+          type               = "forward"
+          target_group_index = 0
+        }
+      ]
+
+      conditions = [
+        {
+          path_patterns = ["/api/*"]
+        }
+      ]
+    },
+    {
+      https_listener_index = 0
+      priority             = 10
+
+      actions = [
+        {
+          type               = "forward"
+          target_group_index = 1
+        }
+      ]
+
+      conditions = [
+        {
+          path_patterns = ["/*"]
+        }
+      ]
+    },
   ]
 
   tags = {
