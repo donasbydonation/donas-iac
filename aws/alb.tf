@@ -94,12 +94,12 @@ module "alb" {
   # index(0) API call: path(/api/*), priority 1
   # index(1) Web call: path(/*), priority 10
   target_groups = [
-    # {
-    #   name_prefix      = "api"
-    #   backend_protocol = "HTTP"
-    #   backend_port     = var.APP_API_PORT
-    #   target_type      = "instance"
-    # },
+    {
+      name_prefix      = "api"
+      backend_protocol = "HTTP"
+      backend_port     = var.APP_API_PORT
+      target_type      = "instance"
+    },
     {
       name_prefix      = "web"
       backend_protocol = "HTTP"
