@@ -23,10 +23,7 @@ rm -rf $FNAME
 
 # - Setup files
 ## - 'docker-compose.yaml'
-curl https://raw.githubusercontent.com/{{GH_OWNER}}/{{GH_REPO}}/{{GH_BRANCH}}/{{GH_PATH}}/docker-compose.b64 \
-    -H "Authorization: token {{GH_ACCESS_TOKEN}}" \
-    | base64 -d \
-    > docker-compose.yaml
+curl https://raw.githubusercontent.com/{{GH_OWNER}}/{{GH_REPO}}/{{GH_BRANCH}}/{{GH_PATH}}/docker-compose.b64 -H "Authorization: token {{GH_ACCESS_TOKEN}}" | base64 -d > docker-compose.yaml
 
 ## - 'docker-compose.sh'
 cat << EOF > docker-compose.sh
@@ -34,10 +31,7 @@ cat << EOF > docker-compose.sh
 
 docker compose stop
 docker compose rm -f
-curl https://raw.githubusercontent.com/{{GH_OWNER}}/{{GH_REPO}}/{{GH_BRANCH}}/{{GH_PATH}}/docker-compose.b64 \
-    -H "Authorization: token {{GH_ACCESS_TOKEN}}" \
-    | base64 -d \
-    > docker-compose.yaml
+curl https://raw.githubusercontent.com/{{GH_OWNER}}/{{GH_REPO}}/{{GH_BRANCH}}/{{GH_PATH}}/docker-compose.b64 -H "Authorization: token {{GH_ACCESS_TOKEN}}" | base64 -d > docker-compose.yaml
 docker compose pull
 docker compose up -d
 EOF
