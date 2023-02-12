@@ -67,15 +67,7 @@ module "alb" {
     }
   }
 
-  target_groups = [
-    {
-      name_prefix      = "asg"
-      backend_protocol = "HTTP"
-      backend_port     = var.APP_WEB_PORT
-      target_type      = "instance"
-    }
-  ]
-
+  # FE
   https_listeners = [
     {
       port               = 443
@@ -97,6 +89,62 @@ module "alb" {
       }
     }
   ]
+
+  # BE
+  # index(0) API call: path(/api/*), priority 1
+  # index(1) Web call: path(/*), priority 10
+  target_groups = [
+    # {
+    #   name_prefix      = "api"
+    #   backend_protocol = "HTTP"
+    #   backend_port     = var.APP_API_PORT
+    #   target_type      = "instance"
+    # },
+    {
+      name_prefix      = "web"
+      backend_protocol = "HTTP"
+      backend_port     = var.APP_WEB_PORT
+      target_type      = "instance"
+    }
+  ]
+
+
+  # https_listener_rules = [
+  #   {
+  #     https_listener_index = 0
+  #     priority             = 1
+  #
+  #     actions = [
+  #       {
+  #         type               = "forward"
+  #         target_group_index = 0
+  #       }
+  #     ]
+  #
+  #     conditions = [
+  #       {
+  #         path_patterns = ["/api/*"]
+  #       }
+  #     ]
+  #   },
+  #   {
+  #     https_listener_index = 0
+  #     priority             = 10
+  #
+  #     actions = [
+  #       {
+  #         type               = "forward"
+  #         target_group_index = 1
+  #       }
+  #     ]
+  #
+  #     conditions = [
+  #       {
+  #         path_patterns = ["/*"]
+  #       }
+  #     ]
+  #   },
+  # ]
 
   tags = {
     "app.donas.me/tier"    = "production"
