@@ -56,10 +56,10 @@ module "rds" {
   allocated_storage     = local.rds.storage_size
   max_allocated_storage = local.rds.max_storage_size
 
-  db_name  = var.AWS_RDS_DBNAME
-  port     = var.AWS_RDS_PORT
-  username = var.AWS_RDS_USERNAME
-  password = var.AWS_RDS_PASSWORD
+  db_name                = var.AWS_RDS_DBNAME
+  port                   = var.AWS_RDS_PORT
+  username               = var.AWS_RDS_USERNAME
+  password               = var.AWS_RDS_PASSWORD
   create_random_password = false
 
   vpc_security_group_ids = [aws_security_group.db.id]
