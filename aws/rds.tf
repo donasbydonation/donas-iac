@@ -60,6 +60,7 @@ module "rds" {
   port     = var.AWS_RDS_PORT
   username = var.AWS_RDS_USERNAME
   password = var.AWS_RDS_PASSWORD
+  create_random_password = false
 
   vpc_security_group_ids = [aws_security_group.db.id]
   db_subnet_group_name   = module.vpc.database_subnet_group_name
