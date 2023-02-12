@@ -32,6 +32,20 @@ resource "aws_security_group_rule" "server_ing_web" {
   }
 }
 
+## - SG ingress rule: {{api_port}}/TCP
+resource "aws_security_group_rule" "server_ing_api" {
+  type                     = "ingress"
+  from_port                = var.APP_API_PORT
+  to_port                  = var.APP_API_PORT
+  protocol                 = "TCP"
+  source_security_group_id = module.alb.security_group_id
+  security_group_id        = aws_security_group.server.id
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
 ## - SG egress rule: */*
 resource "aws_security_group_rule" "server_eg_all" {
   type              = "egress"
