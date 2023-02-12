@@ -30,6 +30,7 @@ module "alb" {
   subnets = module.vpc.public_subnets
 
   security_group_rules = {
+    # Ingress
     ingress_all_http = {
       type        = "ingress"
       from_port   = 80
@@ -51,6 +52,14 @@ module "alb" {
       protocol                 = "TCP"
       source_security_group_id = aws_security_group.server.id
     }
+    ingress_api = {
+      type                     = "ingress"
+      from_port                = var.APP_API_PORT
+      to_port                  = var.APP_API_PORT
+      protocol                 = "TCP"
+      source_security_group_id = aws_security_group.server.id
+    }
+    # Egress
     egress_all_https = {
       type        = "egress"
       from_port   = 443
@@ -62,6 +71,13 @@ module "alb" {
       type                     = "egress"
       from_port                = var.APP_WEB_PORT
       to_port                  = var.APP_WEB_PORT
+      protocol                 = "TCP"
+      source_security_group_id = aws_security_group.server.id
+    }
+    egress_api = {
+      type                     = "egress"
+      from_port                = var.APP_API_PORT
+      to_port                  = var.APP_API_PORT
       protocol                 = "TCP"
       source_security_group_id = aws_security_group.server.id
     }
