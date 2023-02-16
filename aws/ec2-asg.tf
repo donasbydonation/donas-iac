@@ -34,7 +34,7 @@ module "asg" {
     {
       resource_type = "instance"
       tags = {
-        "obj.donas.me/controller" = "donas-app" # TODO
+        "cicd.donas.me/managed-by" = aws_codedeploy_app.server.name
       }
     }
   ]

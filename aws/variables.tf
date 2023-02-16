@@ -29,3 +29,11 @@ variable "AWS_RDS_USERNAME" {
 variable "AWS_RDS_PASSWORD" {
   type = string
 }
+
+variable "AWS_CODEDEPLOY_APP_NAME" {
+  type = string
+}
+
+variable "AWS_CODEDEPLOY_DEPLOY_GROUP_NAME" {
+  type = string
+}

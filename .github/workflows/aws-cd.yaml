@@ -19,6 +19,8 @@ jobs:
       TF_VAR_AWS_RDS_PORT: ${{ secrets.AWS_RDS_PORT }}
       TF_VAR_AWS_RDS_USERNAME: ${{ secrets.AWS_RDS_USERNAME }}
       TF_VAR_AWS_RDS_PASSWORD: ${{ secrets.AWS_RDS_PASSWORD }}
+      TF_VAR_AWS_CODEDEPLOY_APP_NAME: ${{ secrets.AWS_CODEDEPLOY_APP_NAME }}
+      TF_VAR_AWS_CODEDEPLOY_DEPLOY_GROUP_NAME: ${{ secrets.AWS_CODEDEPLOY_DEPLOY_GROUP_NAME }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3.0.1
