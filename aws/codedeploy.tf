@@ -11,7 +11,7 @@ resource "aws_iam_role_policy_attachment" "codedeploy" {
 # CodeDeploy
 resource "aws_codedeploy_app" "server" {
   compute_platform = "Server"
-  name             = format("%s-codedeploy", local.app.name)
+  name             = var.AWS_CODEDEPLOY_APP_NAME
 
   tags = {
     "app.donas.me/tier"    = "production"
@@ -21,7 +21,7 @@ resource "aws_codedeploy_app" "server" {
 
 resource "aws_codedeploy_deployment_group" "server" {
   app_name              = aws_codedeploy_app.server.name
-  deployment_group_name = format("%s-codedeploy", local.app.name)
+  deployment_group_name = var.AWS_CODEDEPLOY_DEPLOY_GROUP_NAME
   service_role_arn      = aws_iam_role.codedeploy.arn
 
   ec2_tag_set {
