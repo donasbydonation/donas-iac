@@ -14,8 +14,8 @@ resource "aws_codedeploy_app" "server" {
   name             = var.AWS_CODEDEPLOY_APP_NAME
 
   tags = {
-    "app.donas.me/tier"    = "production"
-    "obj.donas.me/group"   = "cicd"
+    "app.donas.me/tier"  = "production"
+    "obj.donas.me/group" = "cicd"
   }
 }
 
@@ -27,7 +27,7 @@ resource "aws_codedeploy_deployment_group" "server" {
   ec2_tag_set {
     ec2_tag_filter {
       type  = "KEY_AND_VALUE"
-      key = "cicd.donas.me/managed-by"
+      key   = "cicd.donas.me/managed-by"
       value = aws_codedeploy_app.server.name
     }
   }
@@ -38,7 +38,7 @@ resource "aws_codedeploy_deployment_group" "server" {
   }
 
   tags = {
-    "app.donas.me/tier"    = "production"
-    "obj.donas.me/group"   = "cicd"
+    "app.donas.me/tier"  = "production"
+    "obj.donas.me/group" = "cicd"
   }
 }
