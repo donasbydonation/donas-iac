@@ -24,3 +24,14 @@ data "aws_iam_policy" "aws_codedeploy_role" {
 data "aws_iam_policy" "aws_codedeploy_fullaccess" {
   arn = "arn:aws:iam::aws:policy/AWSCodeDeployFullAccess"
 }
+
+data "aws_iam_policy_document" "codedeploy_assume_role" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["codedeploy.amazonaws.com"]
+    }
+  }
+}
