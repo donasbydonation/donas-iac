@@ -21,8 +21,12 @@ data "aws_iam_policy" "aws_codedeploy_role" {
   arn = "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"
 }
 
-data "aws_iam_policy" "aws_codedeploy_fullaccess" {
+data "aws_iam_policy" "aws_codedeploy_full_access" {
   arn = "arn:aws:iam::aws:policy/AWSCodeDeployFullAccess"
+}
+
+data "aws_iam_policy" "aws_s3_full_access" {
+  arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
 data "aws_iam_policy_document" "codedeploy_assume_role" {
