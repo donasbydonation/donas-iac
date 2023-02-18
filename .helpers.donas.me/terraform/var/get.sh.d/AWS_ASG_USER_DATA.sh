@@ -8,8 +8,10 @@ source $ROOT_DIR/.env.config
 source $ROOT_DIR/.env.credentials
 
 # - Config
-DOCKER_COMPOSE_PATH="$ROOT_DIR/.helpers.donas.me/docker/docker-compose"
 SH_OUT="$ROOT_DIR/aws_asg_user_data.autogen.sh"
+
+# - Dependency
+$ROOT_DIR/.helpers.donas.me/docker/docker-compose/export.sh
 
 # - Generate
 cat << EOF > $SH_OUT
@@ -50,8 +52,8 @@ EOF
 cat << EOF >> $SH_OUT
 # - Save 'docker-compose.yaml'
 cat << EOF > docker-compose.yaml
-$($DOCKER_COMPOSE_PATH/get.sh)
 EOF
+cat $ROOT_DIR/docker-compose.autogen.yaml >> $SH_OUT
 echo 'EOF' >> $SH_OUT
 echo >> $SH_OUT
 
