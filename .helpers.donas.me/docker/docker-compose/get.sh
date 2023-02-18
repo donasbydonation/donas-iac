@@ -8,12 +8,13 @@ source $ROOT_DIR/.env.config
 source $ROOT_DIR/.env.credentials
 
 # - Config
-DOCKER_ENV_GET_PATH="$ROOT_DIR/.helpers.donas.me/docker/env/get.sh.d"
+DOCKER_ENV_GET_PATH="$ROOT_DIR/.helpers.donas.me/docker/docker-compose/env/get.sh.d"
+DOCKER_COMPOSE_YAML="$ROOT_DIR/docker/docker-compose.yaml"
 ENV_OUT="$ROOT_DIR/.env.autogen.docker-compose"
 
 # - Autogen
 function get_env_list() {
-    cat $ROOT_DIR/docker/docker-compose.yaml \
+    cat $DOCKER_COMPOSE_YAML \
         | sed -E 's/([$]{[A-Z_]+})/\1\n/g' \
         | grep -E '[$]{[A-Z_]+}' \
         | sed -E 's/.*[$]{([A-Z_]+)}.*/\1/g' \
@@ -41,7 +42,6 @@ done
 
 # - Docker compose convert
 docker compose \
-    -f $ROOT_DIR/docker/docker-compose.yaml \
+    -f $DOCKER_COMPOSE_YAML \
     --env-file $ENV_OUT \
-    convert \
-    | base64
+    convert

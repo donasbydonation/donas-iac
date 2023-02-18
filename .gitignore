@@ -33,6 +33,7 @@ override.tf.json
 *.env.*
 !.env.config
 *tmp*
+*autogen*
 *.swp
 *.pem
 *.log
