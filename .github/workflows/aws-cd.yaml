@@ -29,10 +29,10 @@ jobs:
       - name: Terraform Format
         id: fmt
         run: terraform fmt -check
-        working-directory: aws
+        working-directory: terraform
       - name: Terraform init
         run: terraform init -input=false
-        working-directory: aws
+        working-directory: terraform
       - name: Terraform apply
         run: terraform apply -auto-approve -input=false
-        working-directory: aws
+        working-directory: terraform
