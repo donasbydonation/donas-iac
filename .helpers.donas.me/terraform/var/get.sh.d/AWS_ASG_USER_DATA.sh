@@ -58,21 +58,45 @@ echo 'EOF' >> $SH_OUT
 echo >> $SH_OUT
 
 cat << EOF >> $SH_OUT
-# - Save 'docker-compose.sh'
-cat << EOF > docker-compose.sh
+# - Save 'application_stop.sh'
+cat << EOF > application_stop.sh
 #!/bin/bash
 docker compose stop
 docker compose rm -f
+EOF
+echo 'EOF' >> $SH_OUT
+cat << EOF >> $SH_OUT
+chmod +x application_stop.sh
+
+EOF
+
+cat << EOF >> $SH_OUT
+# - Save 'before_install.sh'
+cat << EOF > before_install.sh
+#!/bin/bash
 docker compose pull
+EOF
+echo 'EOF' >> $SH_OUT
+cat << EOF >> $SH_OUT
+chmod +x before_install.sh
+
+EOF
+
+cat << EOF >> $SH_OUT
+# - Save 'application_start.sh'
+cat << EOF > application_start.sh
+#!/bin/bash
 docker compose up -d
 EOF
 echo 'EOF' >> $SH_OUT
-echo >> $SH_OUT
+cat << EOF >> $SH_OUT
+chmod +x application_start.sh
+
+EOF
 
 cat << EOF >> $SH_OUT
 # - Start server
-chmod +x docker-compose.sh
-./docker-compose.sh
+./application_start.sh
 EOF
 
 # - Print
