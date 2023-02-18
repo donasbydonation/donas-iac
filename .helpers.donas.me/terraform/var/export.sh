@@ -45,5 +45,5 @@ EOF
 for name in $(list); do
     value=$(get $name)
     echo "export $name='$value'" >> $ENV_OUT
-    echo "export TF_VAR_$name=\$$value" >> $ENV_OUT
+    echo "export TF_VAR_$name=\$$name" >> $ENV_OUT
 done
