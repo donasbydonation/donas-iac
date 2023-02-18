@@ -3,7 +3,7 @@ name: AWS infrastructure CD
 on:
   push:
     branches:
-      - feat/aws/asg-auto-refresh
+      - main
 
 jobs:
   terraform-apply:
@@ -37,7 +37,8 @@ jobs:
         run: terraform apply -auto-approve -input=false
         working-directory: terraform
 
-  asg-auto-refresh:
+  aws-asg-auto-refresh:
+    needs: terraform-apply
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
