@@ -26,7 +26,8 @@ module "asg" {
   iam_role_name               = format("%s-server", local.app.name)
   iam_role_policies = {
     AWSCodeDeployRole       = data.aws_iam_policy.aws_codedeploy_role.arn
-    AWSCodeDeployFullAccess = data.aws_iam_policy.aws_codedeploy_fullaccess.arn
+    AWSCodeDeployFullAccess = data.aws_iam_policy.aws_codedeploy_full_access.arn
+    AmazonS3FullAccess      = data.aws_iam_policy.aws_s3_full_access.arn
   }
 
   # Tags
