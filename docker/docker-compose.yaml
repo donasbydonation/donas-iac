@@ -1,5 +1,7 @@
 version: '3.9'
 
+name: donas-server
+
 services:
   front-end:
     container_name: donas-front-end

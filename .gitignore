@@ -30,9 +30,10 @@ override.tf.json
 
 # Personal ignorations
 .DS_Store
-*.env
-!config.env
+*.env.*
+!.env.config
 *tmp*
+*autogen*
 *.swp
 *.pem
 *.log
