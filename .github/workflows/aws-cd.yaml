@@ -1,9 +1,9 @@
-name: AWS terraforming CD
+name: AWS infrastructure CD
 
 on:
   push:
     branches:
-      - main
+      - feat/aws/asg-auto-refresh
 
 jobs:
   terraform-apply:
@@ -36,3 +36,20 @@ jobs:
       - name: Terraform apply
         run: terraform apply -auto-approve -input=false
         working-directory: terraform
+
+  asg-auto-refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.0.1
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+      - name: Start instance refresh
+        run: |
+          aws autoscaling start-instance-refresh \
+            --no-paginate \
+            --auto-scaling-group-name ${{ secrets.AWS_ASG_NAME }}
