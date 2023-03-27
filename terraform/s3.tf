@@ -14,7 +14,7 @@ module "s3_admin_bucket" {
   source  = "terraform-aws-modules/s3-bucket/aws"
   version = "3.7.0"
 
-  bucket = format("%s-admin-bucket", local.app.name)
+  bucket = format("%s.%s", local.route53.admin_record_name, local.route53.hz_name)
 
   attach_policy = true
   policy        = data.aws_iam_policy_document.admin_web_public_read.json
@@ -34,7 +34,7 @@ data "aws_iam_policy_document" "admin_web_public_read" {
     ]
 
     resources = [
-      format("arn:aws:s3:::%s-admin-bucket/*", local.app.name),
+      format("arn:aws:s3:::%s.%s/*", local.route53.admin_record_name, local.route53.hz_name),
     ]
 
     principals {
@@ -52,7 +52,7 @@ module "route53_admin_cname_records" {
 
   records = [
     {
-      name = "admin"
+      name = local.route53.admin_record_name
       type = "A"
       alias = {
         name    = module.s3_admin_bucket.s3_bucket_website_domain

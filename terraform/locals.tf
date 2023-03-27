@@ -10,6 +10,7 @@ locals {
 
   route53 = {
     hz_name = "donas.me"
+    admin_record_name = "admin"
   }
 
   ec2 = {
