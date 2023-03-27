@@ -43,3 +43,21 @@ data "aws_iam_policy_document" "admin_web_public_read" {
     }
   }
 }
+
+module "route53_admin_cname_records" {
+  source  = "terraform-aws-modules/route53/aws//modules/records"
+  version = "~> 2.0"
+
+  zone_id = module.route53_hz.route53_zone_zone_id[local.route53.hz_name]
+
+  records = [
+    {
+      name = "admin"
+      type = "A"
+      alias = {
+        name    = module.s3_admin_bucket.s3_bucket_website_domain
+        zone_id = module.s3_admin_bucket.s3_bucket_hosted_zone_id
+      }
+    },
+  ]
+}
