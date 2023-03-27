@@ -17,7 +17,7 @@ module "s3_admin_bucket" {
   bucket = format("%s-admin-bucket", local.app.name)
 
   attach_policy = true
-  policy  = data.aws_iam_policy_document.admin_web_public_read.json
+  policy        = data.aws_iam_policy_document.admin_web_public_read.json
 
   website = {
     index_document = "index.html"
