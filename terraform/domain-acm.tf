@@ -5,6 +5,10 @@ module "acm" {
   domain_name = local.route53.hz_name
   zone_id     = module.route53_hz.route53_zone_zone_id[local.route53.hz_name]
 
+  subject_alternative_names = [
+    "*.${local.route53.hz_name}"
+  ]
+
   wait_for_validation = true
 
   tags = {
