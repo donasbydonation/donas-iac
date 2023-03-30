@@ -1,32 +1,24 @@
 #!/bin/bash
 
-set -e
+echo "$(pwd)/donas.me"
+# source "$(dirname $0)/donas.me"
+GH_REMOTE="$GH_OWNER/$GH_REPO"
 
-export ROOT_DIR=$(pwd)
-HOOK_NAME=$(basename $0)
+#
+# GitHub secret synchronization
+#
+function list-gh-secrets() {
+    cat .github/workflows/*.yaml \
+        | sed -E 's/([$]{{ secrets[.][A-Z_]+ }})/\1\n/g' \
+        | grep -E '[$]{{ secrets[.][A-Z_]+ }}' \
+        | sed -E 's/.*[$]{{ secrets[.]([A-Z_]+) }}.*/\1/g' \
+        | sort -u
+}
 
-# - Github
-## - Secrets
-echo "[$HOOK_NAME/github/sync-secrets] Sync GitHub action secrets..."
-$ROOT_DIR/.helpers.donas.me/github/workflows/secret/export.sh
-
-# - Sourcing generated env
-source $ROOT_DIR/.env.config
-source $ROOT_DIR/.env.credentials
-source $ROOT_DIR/.env.autogen.docker-compose
-source $ROOT_DIR/.env.autogen.tf-var
-source $ROOT_DIR/.env.autogen.gh-secrets
-
-# - Terraform
-## - plan
-echo "[$HOOK_NAME/terraform/plan] Planning TF codes..."
-terraform -chdir=terraform plan
-
-## - fmt
-echo "[$HOOK_NAME/terraform/fmt] Formatting TF codes..."
-for tf in $(terraform -chdir=terraform fmt); do
-    if `git ls-files -m --exclude-standard | grep terraform/$tf &> /dev/null`; then
-        git add terraform/$tf
-        git commit -m "fmt: $tf"
-    fi
-done
+# for name in $(gh secret -R $GH_REMOTE list | awk '{print $1}'); do
+#     echo "gh secret -R $GH_REMOTE delete $name"
+# done
+#
+# for name in $(list-gh-secrets); do
+#     echo gh secret -R $GH_REMOTE set $name -b "$(printenv $name)"
+# done
