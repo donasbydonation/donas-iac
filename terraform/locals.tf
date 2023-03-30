@@ -8,6 +8,11 @@ locals {
     cidr_prefix = "10.0"
   }
 
+  sg = {
+    from_nodeport = 30000
+    to_nodeport = 32768
+  }
+
   route53 = {
     hz_name = "donas.me"
     admin_record_name = "admin"

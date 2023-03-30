@@ -1,7 +1,6 @@
 #!/bin/bash
 
-echo "$(pwd)/donas.me"
-# source "$(dirname $0)/donas.me"
+source "$(pwd)/donas.me"
 GH_REMOTE="$GH_OWNER/$GH_REPO"
 
 #
@@ -15,10 +14,10 @@ function list-gh-secrets() {
         | sort -u
 }
 
-# for name in $(gh secret -R $GH_REMOTE list | awk '{print $1}'); do
-#     echo "gh secret -R $GH_REMOTE delete $name"
-# done
-#
-# for name in $(list-gh-secrets); do
-#     echo gh secret -R $GH_REMOTE set $name -b "$(printenv $name)"
-# done
+for name in $(gh secret -R $GH_REMOTE list | awk '{print $1}'); do
+    gh secret -R $GH_REMOTE delete $name
+done
+
+for name in $(list-gh-secrets); do
+    gh secret -R $GH_REMOTE set $name -b "$(printenv $name)"
+done

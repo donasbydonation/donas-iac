@@ -6,6 +6,10 @@ variable "APP_API_PORT" {
   type = string
 }
 
+variable "APP_ADM_PORT" {
+  type = string
+}
+
 variable "AWS_ASG_USER_DATA" {
   type = string
 }

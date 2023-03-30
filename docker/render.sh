@@ -5,5 +5,5 @@ cat << EOF 1>&2
 [WARNING] YOU MUST VERIFY THAT THE REQUIRED ENVS ARE AVAILABLE IN CURRENT SHELL SESSION.
 EOF
 
-export DOCKER_COMPOSE_CONVERT=$(docker compose convert)
-gomplate -f setup-docker-compose.sh.tmpl
+DOCKER_COMPOSE_CONVERT="$(docker compose convert)" \
+    gomplate -f setup-docker-compose.sh.tmpl
