@@ -7,7 +7,7 @@ services:
     container_name: donas-front-end
     image: ghcr.io/donasbydonation/front-end:main
     ports:
-      - "${APP_WEB_PORT}:${APP_WEB_PORT}"
+      - "${APP_WEB_PORT}:${APP_WEB_CONTAINER_PORT}"
     environment:
       - "BACK_END_URL=back-end:${APP_API_PORT}"
     restart: always
@@ -15,10 +15,16 @@ services:
     container_name: donas-back-end
     image: ghcr.io/donasbydonation/back-end:main
     ports:
-      - "${APP_API_PORT}:${APP_API_PORT}"
+      - "${APP_API_PORT}:${APP_API_CONTAINER_PORT}"
     environment:
       - "DB_URL=jdbc:${AWS_RDS_ENGINE}://${AWS_RDS_HOST}:${AWS_RDS_PORT}/${AWS_RDS_DBNAME}"
       - "DB_USER=${AWS_RDS_USERNAME}"
       - "DB_PASSWORD=${AWS_RDS_PASSWORD}"
       - "DB_DRIVER=org.${AWS_RDS_ENGINE}.jdbc.Driver"
+    restart: always
+  admin-console:
+    container_name: donas-admin-console
+    image: ghcr.io/donasbydonation/admin-console:main
+    ports:
+      - "${APP_ADM_PORT}:${APP_ADM_CONTAINER_PORT}"
     restart: always

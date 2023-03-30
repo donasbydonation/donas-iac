@@ -11,6 +11,7 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      TF_VAR_APP_ADM_PORT: ${{ secrets.APP_ADM_PORT }}
       TF_VAR_APP_WEB_PORT: ${{ secrets.APP_WEB_PORT }}
       TF_VAR_APP_API_PORT: ${{ secrets.APP_API_PORT }}
       TF_VAR_AWS_RDS_ENGINE: ${{ secrets.AWS_RDS_ENGINE }}

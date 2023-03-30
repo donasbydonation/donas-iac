@@ -13,6 +13,14 @@ module "route53_records" {
         name    = module.alb.lb_dns_name
         zone_id = module.alb.lb_zone_id
       }
+    },
+    {
+      name = "admin"
+      type = "A"
+      alias = {
+        name    = module.alb.lb_dns_name
+        zone_id = module.alb.lb_zone_id
+      }
     }
   ]
 }
@@ -45,20 +53,14 @@ module "alb" {
       protocol    = "TCP"
       cidr_blocks = ["0.0.0.0/0"]
     }
-    ingress_web = {
+    ingress_nodeport = {
       type                     = "ingress"
-      from_port                = var.APP_WEB_PORT
-      to_port                  = var.APP_WEB_PORT
+      from_port                = local.sg.from_nodeport
+      to_port                  = local.sg.to_nodeport
       protocol                 = "TCP"
       source_security_group_id = aws_security_group.server.id
     }
-    ingress_api = {
-      type                     = "ingress"
-      from_port                = var.APP_API_PORT
-      to_port                  = var.APP_API_PORT
-      protocol                 = "TCP"
-      source_security_group_id = aws_security_group.server.id
-    }
+
     # Egress
     egress_all_https = {
       type        = "egress"
@@ -67,17 +69,10 @@ module "alb" {
       protocol    = "TCP"
       cidr_blocks = ["0.0.0.0/0"]
     }
-    egress_web = {
+    egress_nodeport = {
       type                     = "egress"
-      from_port                = var.APP_WEB_PORT
-      to_port                  = var.APP_WEB_PORT
-      protocol                 = "TCP"
-      source_security_group_id = aws_security_group.server.id
-    }
-    egress_api = {
-      type                     = "egress"
-      from_port                = var.APP_API_PORT
-      to_port                  = var.APP_API_PORT
+      from_port                = local.sg.from_nodeport
+      to_port                  = local.sg.to_nodeport
       protocol                 = "TCP"
       source_security_group_id = aws_security_group.server.id
     }
@@ -107,9 +102,16 @@ module "alb" {
   ]
 
   # BE
-  # index(0) API call: path(/api/*), priority 1
-  # index(1) Web call: path(/*), priority 10
+  # index(0) ADM call: host(admin.donas.me),  path(/*),     priority(1)
+  # index(1) API call: host(*),               path(/api/*), priority(10)
+  # index(2) Web call: host(*),               path(/*),     priority(20)
   target_groups = [
+    {
+      name_prefix      = "adm"
+      backend_protocol = "HTTP"
+      backend_port     = var.APP_ADM_PORT
+      target_type      = "instance"
+    },
     {
       name_prefix      = "api"
       backend_protocol = "HTTP"
@@ -121,7 +123,7 @@ module "alb" {
       backend_protocol = "HTTP"
       backend_port     = var.APP_WEB_PORT
       target_type      = "instance"
-    }
+    },
   ]
 
 
@@ -133,7 +135,25 @@ module "alb" {
       actions = [
         {
           type               = "forward"
-          target_group_index = 0
+          target_group_index = 0 // adm
+        }
+      ]
+
+      conditions = [
+        {
+          path_patterns = ["/*"]
+          host_header = [format("%s.%s", local.route53.admin_record_name, local.route53.hz_name)]
+        }
+      ]
+    },
+    {
+      https_listener_index = 0
+      priority             = 10
+
+      actions = [
+        {
+          type               = "forward"
+          target_group_index = 1 // api
         }
       ]
 
@@ -145,12 +165,12 @@ module "alb" {
     },
     {
       https_listener_index = 0
-      priority             = 10
+      priority             = 20
 
       actions = [
         {
           type               = "forward"
-          target_group_index = 1
+          target_group_index = 2 // web
         }
       ]
 
