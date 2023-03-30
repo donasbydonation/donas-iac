@@ -142,7 +142,7 @@ module "alb" {
       conditions = [
         {
           path_patterns = ["/*"]
-          host_header = [format("%s.%s", local.route53.admin_record_name, local.route53.hz_name)]
+          host_header   = [format("%s.%s", local.route53.admin_record_name, local.route53.hz_name)]
         }
       ]
     },
