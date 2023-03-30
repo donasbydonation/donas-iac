@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(pwd)/donas.me"
+source "$(pwd)/donas.env"
 GH_REMOTE="$GH_OWNER/$GH_REPO"
 
 #
