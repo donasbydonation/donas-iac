@@ -3,6 +3,27 @@
 source "$(pwd)/donas.env"
 GH_REMOTE="$GH_OWNER/$GH_REPO"
 
+
+#
+# TF_VAR_ synchronization
+#
+function list-tf-vars() {
+    local REGEX='^variable "([A-Z_]+)" {$'
+    cat terraform/variables.tf \
+        | grep -E "$REGEX" \
+        | sed -E "s/$REGEX/\1/g"
+}
+
+for name in $(list-tf-vars); do
+    if `grep TF_VAR_$name .github/workflows/*.yaml &> /dev/null`; then
+        echo "[INFO] Env 'TF_VAR_$name' is defined in worklows."
+        sleep 0.2
+    else
+        echo "[ERROR] Env 'TF_VAR_$name' not defined in workflows." 1>&2
+        exit 1
+    fi
+done
+
 #
 # GitHub secret synchronization
 #
