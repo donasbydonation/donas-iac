@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# - Begin
+mkdir -pv /etc/donas/app
+mkdir -pv /etc/donas/install
+
+# - Install Docker
+curl -fsSL https://get.docker.com > /etc/donas/install/docker.sh
+chmod +x /etc/donas/install/docker.sh
+/etc/donas/install/docker.sh
+
+# - Install AWS CodeDeploy agent
+apt-get update -qq > /dev/null
+DEBIAN_FRONTEND=noninteractive apt-get install -y -qq ruby-full > /dev/null
+curl -fsSL https://aws-codedeploy-ap-northeast-2.s3.amazonaws.com/latest/install > /etc/donas/install/codedeploy.sh
+chmod +x /etc/donas/install/codedeploy.sh
+/etc/donas/install/codedeploy.sh auto > /tmp/logfile
+systemctl enable --now codedeploy-agent.service
+
+# - Save 'docker-compose.yaml'
+cat << EOF > /etc/donas/app/docker-compose.yaml
+{{ .Env.DOCKER_COMPOSE_CONVERT }}
+EOF
+
+# - Save 'application_stop.sh'
+cat << EOF > /etc/donas/app/application_stop.sh
+#!/bin/bash
+docker compose -f /etc/donas/app/docker-compose.yaml stop
+docker compose -f /etc/donas/app/docker-compose.yaml rm --force
+EOF
+chmod +x /etc/donas/app/application_stop.sh
+
+# - Save 'before_install.sh'
+cat << EOF > /etc/donas/app/before_install.sh
+#!/bin/bash
+docker compose -f /etc/donas/app/docker-compose.yaml pull
+EOF
+chmod +x /etc/donas/app/before_install.sh
+
+# - Save 'application_start.sh'
+cat << EOF > /etc/donas/app/application_start.sh
+#!/bin/bash
+docker compose -f /etc/donas/app/docker-compose.yaml up -d
+EOF
+chmod +x /etc/donas/app/application_start.sh
+
+# - Start server
+/etc/donas/app/application_start.sh
