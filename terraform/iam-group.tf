@@ -28,7 +28,7 @@ resource "aws_iam_group_policy_attachment" "gh_action_robot" {
 # S3://donas-public-read-bucket robot account group
 #
 resource "aws_iam_group" "s3_public_read_bucket_robot" {
-  name = format("%s-public-read-bucket-robot", local.app.name)
+  name = "s3-public-read-bucket-robot"
   path = "/"
 }
 
