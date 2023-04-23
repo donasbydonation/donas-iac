@@ -33,7 +33,7 @@ resource "aws_iam_group" "s3_public_read_bucket_robot" {
 }
 
 resource "aws_iam_group_policy" "s3_public_read_bucket_robot" {
-  name  = "s3-public-read-bucket-robot"
-  group = aws_iam_group.s3_public_read_bucket_robot.name
+  name   = "s3-public-read-bucket-robot"
+  group  = aws_iam_group.s3_public_read_bucket_robot.name
   policy = data.aws_iam_policy_document.s3_public_read_bucket_full_access.json
 }

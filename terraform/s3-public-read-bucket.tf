@@ -1,7 +1,7 @@
 data "aws_iam_policy_document" "s3_public_read_bucket_read_only" {
   statement {
     principals {
-      type = "*"
+      type        = "*"
       identifiers = ["*"]
     }
 
@@ -22,7 +22,7 @@ module "s3_public_read_bucket" {
   bucket = format("%s-public-read-bucket", local.app.name)
 
   attach_policy = true
-  policy = data.aws_iam_policy_document.s3_public_read_bucket_read_only.json
+  policy        = data.aws_iam_policy_document.s3_public_read_bucket_read_only.json
 
   versioning = {
     enabled = true
