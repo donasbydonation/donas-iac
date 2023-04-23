@@ -102,20 +102,21 @@ module "alb" {
   ]
 
   # BE
-  # index(0) ADM call: host(admin.donas.me),  path(/*),     priority(1)
-  # index(1) API call: host(*),               path(/api/*), priority(10)
-  # index(2) Web call: host(*),               path(/*),     priority(20)
+  # INDEX   HOST              PATH      PRIORITY    DESCRIPTION
+  # 0       *                 /api/*    1           API Call
+  # 1       admin.donas.me    /*        2           Admin Console
+  # 2       *                 /*        3           Web UI
   target_groups = [
-    {
-      name_prefix      = "adm"
-      backend_protocol = "HTTP"
-      backend_port     = var.APP_ADM_PORT
-      target_type      = "instance"
-    },
     {
       name_prefix      = "api"
       backend_protocol = "HTTP"
       backend_port     = var.APP_API_PORT
+      target_type      = "instance"
+    },
+    {
+      name_prefix      = "adm"
+      backend_protocol = "HTTP"
+      backend_port     = var.APP_ADM_PORT
       target_type      = "instance"
     },
     {
@@ -135,7 +136,24 @@ module "alb" {
       actions = [
         {
           type               = "forward"
-          target_group_index = 0 // adm
+          target_group_index = 0 // api
+        }
+      ]
+
+      conditions = [
+        {
+          path_patterns = ["/api/*"]
+        }
+      ]
+    },
+    {
+      https_listener_index = 0
+      priority             = 2
+
+      actions = [
+        {
+          type               = "forward"
+          target_group_index = 1 // adm
         }
       ]
 
@@ -148,24 +166,7 @@ module "alb" {
     },
     {
       https_listener_index = 0
-      priority             = 10
-
-      actions = [
-        {
-          type               = "forward"
-          target_group_index = 1 // api
-        }
-      ]
-
-      conditions = [
-        {
-          path_patterns = ["/api/*"]
-        }
-      ]
-    },
-    {
-      https_listener_index = 0
-      priority             = 20
+      priority             = 3
 
       actions = [
         {
