@@ -10,53 +10,84 @@
 
 ## Required environment variables
 
-### GitHub actions
+### Donas app
 
-> Note: these variables MUST BE included to repository secret to be able to run GitHub actions successfully.
+#### Admin console
 
-| Name | Description |
-| --- | --- |
-| `APP_WEB_PORT` | Same w/ \[Docker.`APP_WEB_PORT`\] |
-| `AWS_ACCESS_KEY_ID` | Same w/ \[Terraform.`AWS_ACCESS_KEY_ID`\] |
-| `AWS_SECRET_ACCESS_KEY` | Same w/ \[Terraform.`AWS_SECRET_ACCESS_KEY`\] |
-| `AWS_ASG_USER_DATA` | Same w/ \[Terraform.`TF_VAR_AWS_ASG_USER_DATA`\] |
-| `AWS_RDS_DBNAME` | Same w/ \[Terraform.`TF_VAR_AWS_RDS_DBNAME`\] |
-| `AWS_RDS_ENGINE` | Same w/ \[Terraform.`TF_VAR_AWS_RDS_ENGINE`\] |
-| `AWS_RDS_PASSWORD` | Same w/ \[Terraform.`TF_VAR_AWS_RDS_PASSWORD`\] |
-| `AWS_RDS_PORT` | Same w/ \[Terraform.`TF_VAR_AWS_RDS_PORT`\] |
-| `AWS_RDS_USERNAME` | Same w/ \[Terraform.`TF_VAR_AWS_RDS_PASSWORD`\] |
+```bash
+APP_ADM_CONTAINER_PORT=''
+APP_ADM_PORT=''
+```
 
-### Terraform
+#### Web
 
-| Name | Description |
-| --- | --- |
-| `AWS_ACCESS_KEY_ID` | AWS access key id for terraforming |
-| `AWS_SECRET_ACCESS_KEY` | AWS secret access key for terraforming |
-| `TF_VAR_APP_WEB_PORT` | Same w/ \[Docker.`APP_WEB_PORT`\] (AWS Security Group) |
-| `TF_VAR_AWS_ASG_USER_DATA` | `user_data` for launch template (AWS Auto Scaling Group) |
-| `TF_VAR_AWS_RDS_ENGINE` | AWS RDS engine type |
-| `TF_VAR_AWS_RDS_DBNAME` | AWS RDS database name to create |
-| `TF_VAR_AWS_RDS_PORT` | AWS RDS port |
-| `TF_VAR_AWS_RDS_USERNAME` | AWS RDS username |
-| `TF_VAR_AWS_RDS_PASSWORD` | AWS RDS password |
+```bash
+APP_WEB_CONTAINER_PORT=''
+APP_WEB_PORT=''
+```
 
-### Docker
+#### API server config
 
-| Name | Description |
-| --- | --- |
-| `APP_API_PORT` | Ingress port for `ghcr.io/donasbydonation/back-end` |
-| `APP_WEB_PORT` | Ingress port for `ghcr.io/donasbydonation/front-end` |
-| `AWS_RDS_DBNAME` | Same w/ \[Terraform.`TF_VAR_AWS_RDS_DBNAME`\] |
-| `AWS_RDS_ENGINE` | Same w/ \[Terraform.`TF_VAR_AWS_RDS_ENGINE`\] |
-| `AWS_RDS_HOST` | RDS hostname (known after terraform apply) |
-| `AWS_RDS_PASSWORD` | Same w/ \[Terraform.`TF_VAR_AWS_RDS_PASSWORD`\] |
-| `AWS_RDS_PORT` |Same w/ \[Terraform.`TF_VAR_AWS_RDS_PORT`\] |
-| `AWS_RDS_USERNAME` |Same w/ \[Terraform.`TF_VAR_AWS_RDS_USERNAME`\] |
+```bash
+APP_API_CONTAINER_PORT=''
+APP_API_PORT=''
 
-### Helpers
+APP_API_MAIL_HOST=''
+APP_API_MAIL_PORT=''
+APP_API_MAIL_USERNAME=''
+APP_API_MAIL_PASSWORD=''
 
-- Include every required environment variables for terraforming, and
+APP_API_JWT_SECRET_KEY=''
+APP_API_JWT_EXPIRATION_MS=''
+APP_API_ADMIN_EXPIRATION_MS=''
 
-| Name | Description |
-| --- | --- |
-| `GH_ACCESS_TOKEN` | GitHub token to access private repositories |
+APP_API_AWS_ACCESS_KEY=''
+APP_API_AWS_SECRET_KEY=''
+APP_API_AWS_REGION=''
+APP_API_AWS_S3_BUCKET=''
+
+APP_API_ADMIN_USERNAME=''
+APP_API_ADMIN_PASSWORD=''
+```
+
+### AWS
+
+#### IAM
+
+```bash
+AWS_ACCESS_KEY_ID=''
+AWS_SECRET_ACCESS_KEY=''
+```
+
+#### ASG
+
+```bash
+AWS_ASG_NAME=''
+AWS_ASG_USER_DATA=''
+```
+
+#### CodeDeploy
+
+```bash
+AWS_CODEDEPLOY_APP_NAME=''
+AWS_CODEDEPLOY_DEPLOY_GROUP_NAME=''
+```
+
+#### RDS
+
+```bash
+AWS_RDS_DBNAME=''
+AWS_RDS_ENGINE=''
+AWS_RDS_HOST=''
+AWS_RDS_PASSWORD=''
+AWS_RDS_PORT=''
+AWS_RDS_USERNAME=''
+```
+
+### GitHub
+
+```bash
+GH_ACCESS_TOKEN=''
+GH_OWNER=''
+GH_REPO=''
+```
