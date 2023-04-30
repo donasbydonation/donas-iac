@@ -65,6 +65,41 @@ module "rds" {
   vpc_security_group_ids = [aws_security_group.db.id]
   db_subnet_group_name   = module.vpc.database_subnet_group_name
 
+  parameters = [
+    {
+      name  = "character_set_client"
+      value = "utf8mb4"
+    },
+    {
+      name  = "character_set_connection"
+      value = "utf8mb4"
+    },
+    {
+      name  = "character_set_database"
+      value = "utf8mb4"
+    },
+    {
+      name  = "character_set_results"
+      value = "utf8mb4"
+    },
+    {
+      name  = "character_set_server"
+      value = "utf8mb4"
+    },
+    {
+      name  = "character_set_server"
+      value = "utf8mb4"
+    },
+    {
+      name  = "collation_connection"
+      value = "utf8mb4_unicode_ci"
+    },
+    {
+      name  = "collation_server"
+      value = "utf8mb4_general_ci"
+    }
+  ]
+
   tags = {
     "app.donas.me/tier"    = "production"
     "obj.donas.me/group"   = "db"
