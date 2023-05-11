@@ -1,17 +1,21 @@
-version: '3.9'
-
 name: donas-server
 
 services:
   front-end:
+    platform: linux/amd64
     container_name: donas-front-end
     image: ghcr.io/donasbydonation/front-end:main
     ports:
       - "${APP_WEB_PORT}:${APP_WEB_CONTAINER_PORT}"
     environment:
-      - "BACK_END_URL=back-end:${APP_API_PORT}"
+      - "BACK_END_URL=back-end:${APP_API_CONTAINER_PORT}"
     restart: always
+    networks:
+      - donas-server
+    depends_on:
+      - back-end
   back-end:
+    platform: linux/amd64
     container_name: donas-back-end
     image: ghcr.io/donasbydonation/back-end:main
     ports:
@@ -35,9 +39,23 @@ services:
       - "ADMIN_USERNAME=${APP_API_ADMIN_USERNAME}"
       - "ADMIN_PASSWORD=${APP_API_ADMIN_PASSWORD}"
     restart: always
+    networks:
+      - donas-server
   admin-console:
+    platform: linux/amd64
     container_name: donas-admin-console
     image: ghcr.io/donasbydonation/admin-console:main
     ports:
       - "${APP_ADM_PORT}:${APP_ADM_CONTAINER_PORT}"
+    environment:
+      - "APP_API_HOST=back-end"
+      - "APP_API_PORT=${APP_API_CONTAINER_PORT}"
+      - "APP_ADM_CONTAINER_PORT=${APP_ADM_CONTAINER_PORT}"
     restart: always
+    networks:
+      - donas-server
+    depends_on:
+      - back-end
+networks:
+  donas-server:
+    name: donas-server
