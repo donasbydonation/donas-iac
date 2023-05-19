@@ -7,7 +7,7 @@ mkdir -pv /etc/donas/install
 # - Install Docker
 curl -fsSL https://get.docker.com > /etc/donas/install/docker.sh
 chmod +x /etc/donas/install/docker.sh
-/etc/donas/install/docker.sh
+VERSION={{ .Env.DOCKER_VERSION }} /etc/donas/install/docker.sh
 
 # - Install AWS CodeDeploy agent
 apt-get update -qq > /dev/null
