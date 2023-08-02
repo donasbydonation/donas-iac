@@ -1,5 +1,7 @@
 # Donas GitOps config
 
+> End-Of-Service Notice: The Donas project officially closed on July 4, 2023.
+
 ## Provisioning scope
 
 - AWS resources
